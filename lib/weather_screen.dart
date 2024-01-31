@@ -26,6 +26,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
     }
   }
 
+  late double celcius;
+
+  String convertToCelsius(double x){
+    celcius = x - 273.15;
+    return '${celcius.toStringAsFixed(0)} °C';
+  }
+
   Future<Map<String,dynamic>> getCurrentWeather() async {
     String city = 'Chandigarh';
     try{
@@ -78,12 +85,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
           final currentTemp = currentWeatherData['main']['temp'];
           final currentSky = currentWeatherData['weather'][0]['main'];
 
-          double celcius = 0;
+          final currentPressure = currentWeatherData['main']['pressure'];
+          final currentHumidity = currentWeatherData['main']['humidity'];
+          final currentWindSpeed = currentWeatherData['wind']['speed'];
 
-          double convertToCelsius(double x){
-            celcius = x - 273.15;
-            return celcius;
-          }
+          final tempAt15 = data['list'][1]['main']['temp'];
+          final tempAt18 = data['list'][2]['main']['temp'];
+          final tempAt21 = data['list'][3]['main']['temp'];
+          final tempAt00 = data['list'][4]['main']['temp'];
+          final tempAt06 = data['list'][6]['main']['temp'];
+          final tempAt12 = data['list'][8]['main']['temp'];
 
           return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -106,7 +117,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
-                                  Text('${convertToCelsius(currentTemp).toStringAsFixed(2)} °C',
+                                  Text('${convertToCelsius(currentTemp)}',
                                       style: const TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.w600,
@@ -149,34 +160,39 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                 const SizedBox(height: 16),
 
-                const SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
                       HourlyForecastItem(
-                        time: '00:00',
+                        time: '15:00',
                         icon: Icons.cloud,
-                        temp: '301.12'
+                        temp: convertToCelsius(tempAt15)
                       ),
                       HourlyForecastItem(
-                          time: '03:00',
+                          time: '18:00',
                           icon: Icons.cloud,
-                          temp: '300.52'
+                          temp: convertToCelsius(tempAt18)
+                      ),
+                      HourlyForecastItem(
+                          time: '21:00',
+                          icon: Icons.cloud,
+                          temp: convertToCelsius(tempAt21)
+                      ),
+                      HourlyForecastItem(
+                          time: '00:00',
+                          icon: Icons.cloud,
+                          temp: convertToCelsius(tempAt00)
                       ),
                       HourlyForecastItem(
                           time: '06:00',
                           icon: Icons.cloud,
-                          temp: '302.22'
-                      ),
-                      HourlyForecastItem(
-                          time: '09:00',
-                          icon: Icons.cloud,
-                          temp: '300.62'
+                          temp: convertToCelsius(tempAt06)
                       ),
                       HourlyForecastItem(
                           time: '12:00',
                           icon: Icons.cloud,
-                          temp: '304.27'
+                          temp: convertToCelsius(tempAt12)
                       ),
                     ],
                   ),
@@ -195,23 +211,23 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                 const SizedBox(height: 12,),
 
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AdditionalInformationItem(
                       icon: Icons.water_drop,
                       label: 'Humidity',
-                      value: '94',
+                      value: currentHumidity.toString(),
                     ),
                     AdditionalInformationItem(
                       icon: Icons.air,
                       label: 'Wind Speed',
-                      value: '7.67',
+                      value: currentWindSpeed.toString(),
                     ),
                     AdditionalInformationItem(
                       icon: Icons.beach_access,
                       label: 'Pressure',
-                      value: '1006',
+                      value: currentPressure.toString(),
                     ),
                   ]
                 )
