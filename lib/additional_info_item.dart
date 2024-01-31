@@ -20,7 +20,6 @@ class AdditionalInformationItem extends StatelessWidget {
 
     return Column(
       children: [
-
         Icon(icon, size: 32),
 
         const SizedBox(height: 10,),
