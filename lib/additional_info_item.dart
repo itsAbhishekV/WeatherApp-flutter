@@ -1,18 +1,36 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class AdditionalInformationItem extends StatelessWidget {
-  const AdditionalInformationItem({super.key});
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const AdditionalInformationItem({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.value
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+
+    return Column(
       children: [
-        Icon(Icons.beach_access, size: 32),
-        SizedBox(height: 10,),
-        Text('Pressure'),
-        SizedBox(height: 8,),
-        Text('1006',
-          style: TextStyle(
+
+        Icon(icon, size: 32),
+
+        const SizedBox(height: 10,),
+
+        Text(label),
+
+        const SizedBox(height: 8,),
+
+        Text(value,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),

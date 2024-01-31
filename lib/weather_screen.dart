@@ -35,7 +35,7 @@ class WeatherScreen extends StatelessWidget {
 
             SizedBox(
               width: double.infinity,
-              height: 230,
+              height: 220,
               child: Card(
                 elevation: 10,
                 child: ClipRRect(
@@ -46,7 +46,7 @@ class WeatherScreen extends StatelessWidget {
                       padding: EdgeInsets.all(16),
                       child: Column(
                         children: [
-                          Text('300 °F',
+                          Text('300K',
                               style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.w600,
@@ -92,11 +92,31 @@ class WeatherScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  HourlyForecastItem(),
-                  HourlyForecastItem(),
-                  HourlyForecastItem(),
-                  HourlyForecastItem(),
-                  HourlyForecastItem(),
+                  HourlyForecastItem(
+                    time: '00:00',
+                    icon: Icons.cloud,
+                    temp: '301.12'
+                  ),
+                  HourlyForecastItem(
+                      time: '03:00',
+                      icon: Icons.cloud,
+                      temp: '300.52'
+                  ),
+                  HourlyForecastItem(
+                      time: '06:00',
+                      icon: Icons.cloud,
+                      temp: '302.22'
+                  ),
+                  HourlyForecastItem(
+                      time: '09:00',
+                      icon: Icons.cloud,
+                      temp: '300.62'
+                  ),
+                  HourlyForecastItem(
+                      time: '12:00',
+                      icon: Icons.cloud,
+                      temp: '304.27'
+                  ),
                 ],
               ),
             ),
@@ -112,14 +132,26 @@ class WeatherScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16,),
+            const SizedBox(height: 12,),
 
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AdditionalInformationItem(),
-                AdditionalInformationItem(),
-                AdditionalInformationItem(),
+                AdditionalInformationItem(
+                  icon: Icons.water_drop,
+                  label: 'Humidity',
+                  value: '94',
+                ),
+                AdditionalInformationItem(
+                  icon: Icons.air,
+                  label: 'Wind Speed',
+                  value: '7.67',
+                ),
+                AdditionalInformationItem(
+                  icon: Icons.beach_access,
+                  label: 'Pressure',
+                  value: '1006',
+                ),
               ]
             )
 
