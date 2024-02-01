@@ -17,14 +17,11 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+
+
   @override
   void initState() {
     super.initState();
-    try{
-      getCurrentWeather();
-    }catch (e){
-      throw e.toString();
-    }
   }
 
   late double celcius;
@@ -65,7 +62,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
         actions: [
           IconButton(onPressed:
           (){
-            debugPrint('Refresh Clicked!!!');
+            setState(() {
+            });
           },
               icon: const Icon(Icons.refresh))
         ],
@@ -221,8 +219,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       value: currentPressure.toString(),
                     ),
                   ]
-                )
-              ]
+                ),
+                    const Spacer(),
+
+                    const Center(
+                        child: Text(
+                          'MADE BY ABHISHEK',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 10
+                          ),
+                        )
+                    )
+              ],
             ),
           );
         }
