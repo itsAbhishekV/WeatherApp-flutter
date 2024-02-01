@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:weather_app/hourly_forecast_item.dart';
 import 'package:weather_app/additional_info_item.dart';
@@ -28,7 +29,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   late double celcius;
 
-  String convertToCelsius(double x){
+  String convertToCelsius(x){
     celcius = x - 273.15;
     return '${celcius.toStringAsFixed(0)} °C';
   }
@@ -89,12 +90,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
           final currentHumidity = currentWeatherData['main']['humidity'];
           final currentWindSpeed = currentWeatherData['wind']['speed'];
 
-          final tempAt15 = data['list'][1]['main']['temp'];
-          final tempAt18 = data['list'][2]['main']['temp'];
-          final tempAt21 = data['list'][3]['main']['temp'];
-          final tempAt00 = data['list'][4]['main']['temp'];
-          final tempAt06 = data['list'][6]['main']['temp'];
-          final tempAt12 = data['list'][8]['main']['temp'];
 
           return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -117,7 +112,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
-                                  Text('${convertToCelsius(currentTemp)}',
+                                  Text(convertToCelsius(currentTemp),
                                       style: const TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.w600,
@@ -160,41 +155,37 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                 const SizedBox(height: 16),
 
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      HourlyForecastItem(
-                        time: '15:00',
-                        icon: Icons.cloud,
-                        temp: convertToCelsius(tempAt15)
-                      ),
-                      HourlyForecastItem(
-                          time: '18:00',
-                          icon: Icons.cloud,
-                          temp: convertToCelsius(tempAt18)
-                      ),
-                      HourlyForecastItem(
-                          time: '21:00',
-                          icon: Icons.cloud,
-                          temp: convertToCelsius(tempAt21)
-                      ),
-                      HourlyForecastItem(
-                          time: '00:00',
-                          icon: Icons.cloud,
-                          temp: convertToCelsius(tempAt00)
-                      ),
-                      HourlyForecastItem(
-                          time: '06:00',
-                          icon: Icons.cloud,
-                          temp: convertToCelsius(tempAt06)
-                      ),
-                      HourlyForecastItem(
-                          time: '12:00',
-                          icon: Icons.cloud,
-                          temp: convertToCelsius(tempAt12)
-                      ),
-                    ],
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //       children: [
+                //         for(int i = 0; i < 5; i++)
+                //           HourlyForecastItem(
+                //               time: data['list'][i+1]['dt'].toString(),
+                //               icon: data['list'][i+1]['weather'][0]['main'] == 'Clouds'  || data['list'][i+1]['weather'][0]['main'] == 'Rain' ? Icons.cloud :  Icons.sunny,
+                //               // icon: data['list'][i+1]['weather']['main'] == 'Clouds' || data['list'][i+1]['weather']['main'] == 'Rain' ? data['list'][i+1]['weather']['main'] == 'Clouds' ? Icons.cloud : Icons.thunderstorm : Icons.sunny,
+                //               temp: convertToCelsius(data['list'][i+1]['main']['temp']),
+                //             // temp: data['list'][i+1]['main']['temp'].toString(),
+                //           ),
+                //       ],
+                //   ),
+                // ),
+
+                SizedBox(
+                  height: 125,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 6,
+                    itemBuilder: (context, index){
+                      final hourlyForecast = data['list'][index + 1];
+                      final hourlySky = data['list'][index+1]['weather'][0]['main'];
+                      final time = DateTime.parse(hourlyForecast['dt_txt']);
+                      return HourlyForecastItem(
+                        time: DateFormat.j().format(time),
+                        icon: hourlySky == 'Clouds' || hourlySky == 'Rain' ? hourlySky == 'Clouds' ? Icons.cloud : Icons.thunderstorm : Icons.sunny,
+                        temp: convertToCelsius(hourlyForecast['main']['temp']),
+                      );
+                    },
                   ),
                 ),
 
