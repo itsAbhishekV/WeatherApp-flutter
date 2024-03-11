@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/getting_user_location.dart';
 
 import 'package:weather_app/hourly_forecast_item.dart';
 import 'package:weather_app/additional_info_item.dart';
@@ -18,10 +19,18 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
 
-
+  late String name;
   @override
   void initState() {
     super.initState();
+    gettingname();
+  }
+
+  void gettingname(){
+    getname().then((value) => setState(() {
+      name = value.toString();
+    })
+    );
   }
 
   late double celcius;
@@ -99,7 +108,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                     SizedBox(
                       width: double.infinity,
-                      height: 220,
+                      height: 240,
                       child: Card(
                         elevation: 10,
                         child: ClipRRect(
@@ -110,6 +119,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.location_on, size: 16,),
+                                      const SizedBox(width: 4,),
+                                      Text(name, style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15
+                                      ),)
+                                    ],
+                                  ),
                                   Text(convertToCelsius(currentTemp),
                                       style: const TextStyle(
                                         fontSize: 32,
