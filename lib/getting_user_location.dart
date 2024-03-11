@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -37,6 +36,7 @@ Future<String> _getCurrentCity() async {
     position.latitude,
     position.longitude,
   );
+
 
   Placemark placemark = placemarks.first;
   String city = placemark.locality ?? '';
