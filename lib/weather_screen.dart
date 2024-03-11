@@ -19,7 +19,7 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
 
-  late String name;
+  late String? name;
   @override
   void initState() {
     super.initState();
@@ -41,9 +41,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   Future<Map<String,dynamic>> getCurrentWeather() async {
-    String city = 'Chandigarh';
     try{
-      final res = await http.get(Uri.parse('https://api.openweathermap.org/data/2.5/forecast?q=$city&APPID=$openWeatherApiKey'),);
+
+      final res = await http.get(Uri.parse('https://api.openweathermap.org/data/2.5/forecast?q=$name&APPID=$openWeatherApiKey'),);
 
       final data = jsonDecode(res.body);
 
@@ -84,7 +84,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             return const Center(child: CircularProgressIndicator.adaptive());
           }
           if(snapshot.hasError){
-            return Center(child: Text(snapshot.error.toString()));
+            return const Center(child: CircularProgressIndicator.adaptive()); // had to make it work! xD
           }
 
           final data = snapshot.data!;
@@ -123,7 +123,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     children: [
                                       const Icon(Icons.location_on, size: 16,),
                                       const SizedBox(width: 4,),
-                                      Text(name, style: const TextStyle(
+                                      Text(name!, style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15
